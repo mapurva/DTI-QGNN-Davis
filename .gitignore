@@ -1,0 +1,8 @@
+# Ignore datasets
+01_data/raw/
+01_data/processed/
+
+# Ignore model artifacts
+07_checkpoints/
+*.pt
+*.pkl
