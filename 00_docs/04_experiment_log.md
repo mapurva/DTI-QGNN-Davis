@@ -17,3 +17,10 @@
   - QGNN (2 qubits vs 4 qubits)
   - Increasing qubits slightly improves representation capacity
 - Status: Completed
+
+## EXP-005 | Extended Evaluation Metrics
+- Added Mean Absolute Error (MAE) for model comparison
+- MAE estimated at best validation epoch
+- Purpose: improve interpretability of regression performance
+- Status: Completed
+
