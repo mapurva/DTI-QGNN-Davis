@@ -1,0 +1,46 @@
+digraph GNN_vs_QGNN {
+	graph [fontsize=12 rankdir=LR]
+	subgraph cluster_gnn {
+		color=blue label="Classical GNN Baseline"
+		G1 [label="SMILES &
+Protein Sequences"]
+		G2 [label="Graph Construction"]
+		G3 [label="GCN Layer 1"]
+		G4 [label="GCN Layer 2"]
+		G5 [label="Global Mean Pooling"]
+		G6 [label="Fully Connected
+Regression Head"]
+		G7 [label="Affinity Prediction"]
+		G1 -> G2
+		G2 -> G3
+		G3 -> G4
+		G4 -> G5
+		G5 -> G6
+		G6 -> G7
+	}
+	subgraph cluster_qgnn {
+		color=purple label="Quantum-Enhanced GNN (QGNN)"
+		Q1 [label="SMILES &
+Protein Sequences"]
+		Q2 [label="Graph Construction"]
+		Q3 [label="GCN Layer 1"]
+		Q4 [label="GCN Layer 2"]
+		Q5 [label="Global Mean Pooling"]
+		Q6 [label="Linear Projection
+(Classical → Quantum)"]
+		Q7 [label="Variational Quantum Circuit
+• Angle Embedding
+• Entanglement
+• Measurement"]
+		Q8 [label="Classical Regression Head"]
+		Q9 [label="Affinity Prediction"]
+		Q1 -> Q2
+		Q2 -> Q3
+		Q3 -> Q4
+		Q4 -> Q5
+		Q5 -> Q6
+		Q6 -> Q7
+		Q7 -> Q8
+		Q8 -> Q9
+	}
+}

@@ -1,0 +1,14 @@
+Average GNN epoch time: X.XX seconds
+Epoch 01 | Train RMSE: 1.2721 | Val RMSE: 0.8585 | Time: 56.88s
+Epoch 02 | Train RMSE: 0.9015 | Val RMSE: 0.8822 | Time: 56.96s
+Epoch 03 | Train RMSE: 0.8997 | Val RMSE: 0.9174 | Time: 55.23s
+
+Average GNN epoch time: 56.36 seconds
+Training completed. Metrics saved.
+
+[QGNN] Epoch 01 | Train RMSE: 2.3568 | Val RMSE: 0.8578 | Time: 392.28s
+[QGNN] Epoch 02 | Train RMSE: 0.9028 | Val RMSE: 0.8568 | Time: 403.10s
+[QGNN] Epoch 03 | Train RMSE: 0.8990 | Val RMSE: 0.8608 | Time: 399.31s
+
+Average QGNN epoch time: 398.23 seconds
+QGNN training completed. Metrics saved.
