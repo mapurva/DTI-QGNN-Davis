@@ -4,19 +4,14 @@ import random
 import numpy as np
 import torch
 import pandas as pd
+import time
 
 import sys
-import os
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from models.gnn_baseline import GNNBaseline
 
-
 from torch_geometric.loader import DataLoader
 from sklearn.metrics import mean_squared_error
-
-#from 03_models.gnn_baseline import GNNBaseline  # noqa
-
 
 # -------------------------
 # Reproducibility
@@ -47,7 +42,6 @@ with open(f"{DATA_DIR}/davis_splits_v1.pkl", "rb") as f:
 
 train_loader = DataLoader(splits["train"], batch_size=16, shuffle=True)
 val_loader = DataLoader(splits["val"], batch_size=16)
-test_loader = DataLoader(splits["test"], batch_size=16)
 
 # -------------------------
 # Model
@@ -62,10 +56,14 @@ criterion = torch.nn.MSELoss()
 # Training loop
 # -------------------------
 records = []
+epoch_times = []
 
-EPOCHS = 30
+#EPOCHS = 30
+EPOCHS = 3
 
 for epoch in range(1, EPOCHS + 1):
+    start_time = time.time()
+
     model.train()
     train_losses = []
 
@@ -95,11 +93,18 @@ for epoch in range(1, EPOCHS + 1):
             preds.extend(pred.cpu().numpy())
             trues.extend(batch.y.cpu().numpy())
 
-    #val_rmse = mean_squared_error(trues, preds, squared=False)
     val_rmse = np.sqrt(mean_squared_error(trues, preds))
     train_rmse = np.sqrt(np.mean(train_losses))
 
-    print(f"Epoch {epoch:02d} | Train RMSE: {train_rmse:.4f} | Val RMSE: {val_rmse:.4f}")
+    epoch_time = time.time() - start_time
+    epoch_times.append(epoch_time)
+
+    print(
+        f"Epoch {epoch:02d} | "
+        f"Train RMSE: {train_rmse:.4f} | "
+        f"Val RMSE: {val_rmse:.4f} | "
+        f"Time: {epoch_time:.2f}s"
+    )
 
     records.append({
         "epoch": epoch,
@@ -107,7 +112,7 @@ for epoch in range(1, EPOCHS + 1):
         "val_rmse": val_rmse
     })
 
-    # Checkpoint
+    # Checkpoint (local only)
     if epoch % 10 == 0:
         torch.save(
             model.state_dict(),
@@ -120,4 +125,6 @@ for epoch in range(1, EPOCHS + 1):
 df = pd.DataFrame(records)
 df.to_csv(f"{RESULT_DIR}/metrics/gnn_baseline.csv", index=False)
 
+avg_epoch_time = sum(epoch_times) / len(epoch_times)
+print(f"\nAverage GNN epoch time: {avg_epoch_time:.2f} seconds")
 print("Training completed. Metrics saved.")
